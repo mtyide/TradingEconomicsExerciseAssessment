@@ -1,0 +1,67 @@
+﻿@page "/fetchdata"
+@using TradingEconomicsExerciseAssessment.Data
+@inject IForecastService service
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Trading Economics Forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Title</th>
+                <th>Latest Value</th>
+                <th>Latest Value Date</th>
+                <th>Q1</th>
+                <th>Q2</th>
+                <th>Q3</th>
+                <th>Q4</th>
+                <th>Year End</th>
+                <th>Year End 1</th>
+                <th>Year End 2</th>
+                <th>Frequency</th>
+                <th>Unit</th>
+                <th>Historical Data Symbol</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Category</td>
+                    <td>@forecast.Title</td>
+                    <td>@forecast.LatestValue</td>
+                    <td>@forecast.LatestValueDate</td>
+                    <td>@forecast.Q1</td>
+                    <td>@forecast.Q2</td>
+                    <td>@forecast.Q3</td>
+                    <td>@forecast.Q4</td>
+                    <td>@forecast.YearEnd</td>
+                    <td>@forecast.YearEnd1</td>
+                    <td>@forecast.YearEnd2</td>
+                    <td>@forecast.Frequency</td>
+                    <td>@forecast.Unit</td>
+                    <td>@forecast.HistoricalDataSymbol</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Forecast>? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await service.GetForecast("mexico");
+    }
+}
